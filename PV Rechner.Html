@@ -1,0 +1,28 @@
+const peopleSelect = document.getElementById('people');
+const modulesInput = document.getElementById('modules');
+const moduleTypeSelect = document.getElementById('module-type');
+const systemPowerSpan = document.getElementById('system-power');
+const batteryCapacitySpan = document.getElementById('battery-capacity');
+
+function calculate() {
+    const people = parseInt(peopleSelect.value);
+    const modules = parseInt(modulesInput.value);
+    const moduleType = parseInt(moduleTypeSelect.value);
+
+    // محاسبه مصرف برق سالانه بر اساس تعداد افراد
+    const annualConsumption = [1400, 2400, 3300, 3900, 4400, 5100, 5800, 6500, 7700][people - 1];
+
+    // محاسبه قدرت سیستم و ظرفیت باتری پیشنهادی
+    const systemPower = modules * moduleType;
+    const batteryCapacity = Math.min(systemPower * 1.5, annualConsumption / 1000 * 1.5);
+
+    systemPowerSpan.textContent = systemPower;
+    batteryCapacitySpan.textContent = batteryCapacity.toFixed(2);
+}
+
+peopleSelect.addEventListener('change', calculate);
+modulesInput.addEventListener('input', calculate);
+moduleTypeSelect.addEventListener('change', calculate);
+
+// محاسبه اولیه هنگام بارگذاری صفحه
+calculate();
